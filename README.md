@@ -3,7 +3,21 @@
 - Create chart of accounts
 - Opening balances of accounts
     - https://www.youtube.com/watch?v=z_XJGHEF0T8&ab_channel=OdooMates
-- 
+- Set "Anglo-Saxon Accounting"
+    - Go to settings
+    - search "anglo"
+    - Check "Anglo-Saxon Accounting" checkbox
+    - Click save button
+- Enable "Landed Costs"
+    - Go to settings
+    - search "landed"
+    - Check "Landed Costs" checkbox
+    - Click save button
+- Setup "Average costing and Automated costing for inventory"
+    - Create following account heads in chart of accounts for inventory costing:
+        - *Stock Valuation Account*: 
+        - *Stock Input Account*:
+        - *Stock Output Account*:
 - Employee contracts
 - Employee Lunch
 - Employee Attendance
