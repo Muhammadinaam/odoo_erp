@@ -1,4 +1,22 @@
 # Odoo ERP
 
-### How to set opening balances:
-- https://www.youtube.com/watch?v=z_XJGHEF0T8&ab_channel=OdooMates
+- Create chart of accounts
+- Opening balances of accounts
+    - https://www.youtube.com/watch?v=z_XJGHEF0T8&ab_channel=OdooMates
+- 
+- Employee contracts
+- Employee Lunch
+- Employee Attendance
+- Repairs
+- Fleet
+- Maintenance
+- Employees
+- Recruitment
+- Timeoff
+- Expenses
+- Manufacturing
+- Purchase
+- Inventory
+- Sales
+- Accounting
+- Payroll
