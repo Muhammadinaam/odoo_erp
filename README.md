@@ -1,6 +1,7 @@
 # Odoo ERP
 
 - Create chart of accounts
+    - ![](https://github.com/Muhammadinaam/odoo_erp/blob/master/readme_gifs/setup_chart_of_accounts.gif)
 - Opening balances of accounts
     - https://www.youtube.com/watch?v=z_XJGHEF0T8&ab_channel=OdooMates
 - 
