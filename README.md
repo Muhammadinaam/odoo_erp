@@ -18,9 +18,9 @@
     - Click save button
 - Setup "Average costing and Automated costing for inventory"
     - Create following account heads in chart of accounts for inventory costing:
-        - *Stock Valuation Account*: 
-        - *Stock Input Account*:
-        - *Stock Output Account*:
+        - **Stock Valuation Account**: Stock Valuation Account is nothing but the account showing real value (current value) of assets. So this must be Current Assets.
+        - **Stock Input Account**: Stock Input Account is an interim account for parking the "accounting payable"during 'Receive Products" because later this will get knocked off against the Vendor (Accounts Payable) during creation of Vendor Bill. So this account type should be 'Current Liabilities'.
+        - **Stock Output Account**: Stock Output Account is an interim account for parking the "accounts receivable" during "Shipments" because later this will get setoff against the Customer (Accounts Receivable) while creating Customer Bill. So the type should be "Current Assets".
 - Employee contracts
 - Employee Lunch
 - Employee Attendance
