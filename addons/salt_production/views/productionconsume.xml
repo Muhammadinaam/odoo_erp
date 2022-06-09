@@ -13,7 +13,7 @@
             <tree>
                 <field name="time" />
                 <field name="cycle"/>
-                <field name="production"/>
+                <!-- <field name="production"/> -->
                 <field name="consume"/>
                 
                 <field name="petrol"/>
