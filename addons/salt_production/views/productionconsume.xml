@@ -13,6 +13,8 @@
             <tree>
                 <field name="time" />
                 <field name="cycle"/>
+                <field name="production"/>
+                <field name="consume"/>
                 <field name="petrol"/>
              
                 <field name="diesel"/>
@@ -31,12 +33,14 @@
 
             <graph>
 
-                <!-- <field name="time" />
+                <field name="time" />
                 <field name="cycle"/>
+                <field name="production"/>
+                <field name="consume"/>
                 <field name="petrol"/>
                 <field name="diesel"/>
                 <field name="water"/>
-                <field name="additives"/> -->
+                <field name="additives"/>
 
             </graph>
         </field>
@@ -57,12 +61,15 @@
                         <group>
                             <field name="time" />
                             <field name="cycle"/>
+                            
                             <field name="petrol"/>
-                         </group>
-                        <group>
                             <field name="diesel"/>
+                        </group>
+                        <group>
                             <field name="water"/>
                             <field name="additives"/>
+                            <field name="production"/>
+                            <field name="consume"/>
                          </group>
 
                     </group>
@@ -75,7 +82,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="salt_production.productionconsume_action_window">
-        <field name="name">productionconsume</field>
+        <field name="name">Production Consumption Index</field>
         <field name="res_model">salt_production.productionconsume</field>
         <field name="view_mode">tree,form,graph</field>
     </record>

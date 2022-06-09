@@ -12,26 +12,29 @@
 
             <tree>
 
-                <field name="time" />
+              
                 
+                 <field name="time" />
                  <field name="crystalizer_id" />
                  <field name="customer" />
                  <field name="saleorder" />
+                 <field name="cycle" />
+                 <field name="catincome" />
+                 <field name="rawincome" />
+                 <field name="coarse" />
+                 <field name="finesalt" />
 
-                <field name="cycle" />
-                <field name="rawincome" />
-                <field name="totalprod" />
-                <field name="totalprodperc" />
-                <field name="normalloss" />
-                <field name="cat" />
+                 <field name="coarseAndFine" />
+                 <field name="powdersalt" />
+                 <field name="totalrefine" />
+                 
+          
+                 
                 
-                <field name="normallossperc" />
-                <field name="totalworkinghr" />
-                <field name="totalworkinghr" />
-                <field name="inthr" />
                 <field name="effectivehr" sum="calculated" />
                 <field name="perhrprod" sum="Projected" />
-
+                <field name="remarks" />
+                
 
             </tree>
         </field>
@@ -75,21 +78,31 @@
                             <field name="customer" />
                             <field name="saleorder" />
                             <field name="cycle" />
-                            <field name="cat" />
+                            <field name="catincome" />
                             <field name="rawincome" />
-                            <field name="totalprod" />
+                            <field name="coarse" />
+                            <field name="finesalt" />
+
+                            <field name="coarseAndFine" />
+                            <field name="powdersalt" />
+                            <field name="totalrefine" />
                             
                         </group>
                         <group>
-                            <field name="totalprodperc" />
-                            <field name="normalloss" />
-                           <field name="normallossperc" />
-                           <field name="totalworkinghr" />
-                           <field name="totalworkinghr" />
-                           <field name="inthr" />
+                            <field name="stime" />
+                            <field name="etime" />
+                            <field name="hours" />
+                            <field name="interuption" />
+                           
                            <field name="effectivehr" sum="calculated" />
                            <field name="perhrprod" sum="Projected" />
-           
+                           <field name="remarks" />
+                           <field name="coarsePerc" />
+                           <field name="finePerc" />
+                           <field name="powderPerc" />
+                           <field name="totalPerc" />
+
+                           
 
                         </group>
 

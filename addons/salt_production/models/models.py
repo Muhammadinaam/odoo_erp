@@ -288,19 +288,22 @@ class Washing(models.Model):
             else:
                 record.perhrprod = 0
 
-    @api.depends("etime")
+    @api.depends("interuption")
     def _compute_effectivehr(self):
         for record in self:
             record.effectivehr = record.hours - record.interuption
 
     
     
-    # @api.depends("etime")
+    @api.depends("etime")
     def _compute_hours(self):
         for record in self:
-            start=fields.Datetime.to_datetime(record.stime)
-            end=fields.Datetime.to_datetime(record.etime)
-            record.hours = (end - start).total_seconds()/(60*60)
+            if(record.etime):
+                start=fields.Datetime.to_datetime(record.stime)
+                end=fields.Datetime.to_datetime(record.etime)
+                record.hours = (end - start).total_seconds()/(60*60)
+            else:
+                record.hours=0
     
     
     
@@ -356,18 +359,101 @@ class Refine(models.Model):
         ('Cycle1/2024','Cycle1/2024'),('Cycle2/2024','Cycle2/2024'),('Cycle3/2024','Cycle3/2024'),
         ('Cycle1/2025','Cycle1/2025'),('Cycle2/2025','Cycle2/2025'),('Cycle3/2025','Cycle3/2025'),
         ], string="Cycle",required=True)
-    cat = fields.Selection([
+    catincome = fields.Selection([
         ('Single','Single'),('Double','Double'),('Tripple','Tripple')
-        ], string="Category",required=True)
-    rawincome= fields.Float(string="Raw Incoming")
-    totalprod= fields.Float(string="Total Production")
-    totalprodperc = fields.Float(string="Total Prod %")
-    normalloss= fields.Float(string="Normal Loss")
-    normallossperc= fields.Float(string="Normal Loss %")
-    totalworkinghr= fields.Integer(string="Total Work Hrs")
-    inthr= fields.Integer(string="Interruption Hrs")
-    effectivehr= fields.Integer(string="effective Hrs")
-    perhrprod= fields.Integer(string="Prod / Hr")
+        ], string="Category Income",required=True)
+    rawincome= fields.Float(string="Raw Incoming from wash")
+    coarse= fields.Float(string="Coarse Salt (Mtons)")
+    finesalt= fields.Float(string="Fine Salt (Mtons)")
+    coarseAndFine= fields.Float(string="Coarse + Fine" , compute="_coarsefine")
+    powdersalt= fields.Float(string="Powder Salt")
+    totalrefine= fields.Float(string="Coarse + Fine + Powder", compute="_totalrefinesalt")
+
+    stime = fields.Datetime(string="Start Time harvesting" )
+    etime = fields.Datetime(string="End Time Harvesting" )
+    hours = fields.Float(string="Hours worked" , compute="_compute_hours" , digits=(12,2))
+    # days = fields.Char(string="Days" , compute="_compute_total5")
+    interuption=fields.Integer(string="Interrupted Hrs")
+    effectivehr=fields.Integer(string="effective Hrs", compute="_compute_effectivehr")
+    perhrprod=fields.Float(string="Prod / Hr" , compute="_prodperhr")
+    coarsePerc=fields.Float(string="Coarse Salt %", compute="_coarse")
+    finePerc=fields.Float(string="Fine Salt %" , compute="_fine")
+    powderPerc=fields.Float(string="Powder Salt %" , compute="_powder")
+    totalPerc=fields.Float(string="Total %" , compute="_totalPerc")
+
+    remarks=fields.Char(string="Remarks")
+
+    @api.depends("totalrefine")
+    def _totalPerc(self):
+        for record in self:
+            record.totalPerc = (record.coarsePerc +
+             record.finePerc +record.powderPerc)
+
+
+    @api.depends("totalrefine")
+    def _powder(self):
+        for record in self:
+            if(record.totalrefine > 0):
+                record.powderPerc = (record.powdersalt / record.totalrefine)*100
+            else:
+                record.powderPerc = 0
+
+    @api.depends("totalrefine")
+    def _fine(self):
+        for record in self:
+            if(record.totalrefine > 0):
+                record.finePerc = (record.finesalt / record.totalrefine)*100
+            else:
+                record.finePerc = 0
+
+    @api.depends("totalrefine")
+    def _coarse(self):
+        for record in self:
+            if(record.totalrefine > 0):
+                record.coarsePerc = (record.coarse / record.totalrefine)*100
+            else:
+                record.coarsePerc = 0
+    
+
+           
+
+    @api.depends("effectivehr")
+    def _prodperhr(self):
+        for record in self:
+            if(record.effectivehr > 0):
+                record.perhrprod = record.totalrefine / record.effectivehr
+            else:
+                record.perhrprod = 0
+
+
+    @api.depends("powdersalt")
+    def _totalrefinesalt(self):
+        for record in self:
+            record.totalrefine = record.coarseAndFine + record.powdersalt
+
+    @api.depends("hours")
+    def _compute_effectivehr(self):
+        for record in self:
+            if(record.interuption > 0):
+                record.effectivehr = record.hours - record.interuption
+            else:
+                record.effectivehr= record.hours
+    
+    @api.depends("finesalt")
+    def _coarsefine(self):
+        for record in self:
+            record.coarseAndFine = record.coarse + record.finesalt
+
+    @api.depends("etime")
+    def _compute_hours(self):
+        for record in self:
+            if(record.etime):
+                start=fields.Datetime.to_datetime(record.stime)
+                end=fields.Datetime.to_datetime(record.etime)
+                record.hours = (end - start).total_seconds()/(60*60)
+            else:
+                record.hours=0
+    
 
 
 
@@ -385,11 +471,24 @@ class Productionconsume(models.Model):
         ('Cycle1/2024','Cycle1/2024'),('Cycle2/2024','Cycle2/2024'),('Cycle3/2024','Cycle3/2024'),
         ('Cycle1/2025','Cycle1/2025'),('Cycle2/2025','Cycle2/2025'),('Cycle3/2025','Cycle3/2025'),
         ], string="Cycle")
-    petrol= fields.Float(string="Petrol")
-    diesel= fields.Float(string="Diesel")
-    water= fields.Float(string="water")
-    electricity= fields.Float(string="Electricity")
-    additives=fields.Float(string="Additives")
+    petrol= fields.Float(string="Petrol (Galons)")
+    diesel= fields.Float(string="Diesel (Galons)")
+    water= fields.Float(string="Water (Galons)")
+    electricity= fields.Float(string="Electricity (KW)")
+    additives=fields.Float(string="Additives ")
+    production = fields.Integer(string="Total Production")
+    consume = fields.Float(string="Consumption/Mton", compute="_consume")
+
+    @api.depends("production")
+    def _consume(self):
+        for record in self:
+            if (record.petrol > 0):
+                record.consume = record.production / record.petrol
+            elif(record.diesel > 0):
+                record.consume = record.production / record.diesel
+            else:
+                record.consume = record.consume
+
 
 
 class Burnerconsume(models.Model):
@@ -409,6 +508,20 @@ class Burnerconsume(models.Model):
     water= fields.Float(string="water")
     electricity= fields.Float(string="Electricity")
     additives=fields.Float(string="Additives")
+    production = fields.Integer(string="Total Production")
+
+    consume = fields.Float(string="Consumption/Mton", compute="_consume")
+
+    @api.depends("production")
+    def _consume(self):
+        for record in self:
+            if (record.petrol > 0):
+                record.consume = record.production / record.petrol
+            elif(record.diesel > 0):
+                record.consume = record.production / record.diesel
+            else:
+                record.consume = record.consume
+
      
   
 
