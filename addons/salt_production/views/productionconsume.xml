@@ -15,8 +15,8 @@
                 <field name="cycle"/>
                 <field name="production"/>
                 <field name="consume"/>
+                
                 <field name="petrol"/>
-             
                 <field name="diesel"/>
                 <field name="water"/>
                 <field name="additives"/>
