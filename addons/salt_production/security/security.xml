@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record  id="module_category_projectedprod" model="ir.module.category">
+        <field name="name">Projected Production</field>
+        <field name="ddescription">Projected Production</field>
+        
+    </record>
+
+    <record  id="group_projectedprod_manager" model="res.group">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="module_category_projectedprod" />
+
+    </record>
+
+
+    <record  id="group_projectedprod_assistant" model="res.group">
+        <field name="name">Projected Production</field>
+        <field name="category_id" ref="module_category_projectedprod" />
+        <field name="view_mode">tree,form,graph</field> -->
+    </record>
+
+</odoo>
