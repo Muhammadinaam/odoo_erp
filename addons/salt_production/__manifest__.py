@@ -33,12 +33,16 @@
         'views/weather_menu.xml',
         'views/refine.xml',
         'views/circuit.xml',
+        'views/analysisreport.xml',
         'views/washing.xml',
         'views/projectedprod.xml',
         'views/widthsaltplates.xml',
+        'views/pump.xml',
         'views/circuittwo.xml',
         'views/feedevaporator.xml',
         'views/views.xml',
+        'report/refine_report.xml',
+        'report/report.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

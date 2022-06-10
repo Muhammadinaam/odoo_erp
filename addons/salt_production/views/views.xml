@@ -79,13 +79,21 @@
               parent="salt_production.menu_root"
               id="salt_production.lab_root1" />
 
-    <menuitem name="Production Charts" 
+    <menuitem name="Production Forms" 
               parent="salt_production.menu_root"
               id="salt_production.master_data" />
 
-    <menuitem name="Lab Area" 
+    <menuitem name="Data Points" 
               parent="salt_production.menu_root"
               id="salt_production.lab_root" />
+
+    <menuitem name="Processing" 
+              parent="salt_production.menu_root"
+              id="salt_production.lab_refine" />
+    
+    <menuitem name="Lab Form" 
+              parent="salt_production.menu_root"
+              id="salt_production.lab_form" />
 
     
     <menuitem name="Water Pumps" 
@@ -111,6 +119,14 @@
                 action="action_weather_post"
                 sequence="0"
                 />
+    
+
+    <menuitem id="menu_pump_master"
+                name="Pump Stations Form"
+                parent="salt_production.lab_root"
+                action="salt_production.pump_action"
+                sequence="0"
+                />
         
 
     
@@ -120,6 +136,7 @@
                 action="action_circuit_post"
                 sequence="0"
                 />
+      
     
     <menuitem id="menu_circuittwo_master"
                 name="Circuit 2"
@@ -161,24 +178,36 @@
     
     <menuitem id="menu_feed_productionconsume_master"
             name="Production Cosumption Index"
-            parent="salt_production.lab_root1"
+            parent="salt_production.lab_refine"
             action="salt_production.productionconsume_action_window"
             sequence="0"
             />
 
     <menuitem id="menu_feed_burnerconsume_master"
             name="Burner Cosumption Index"
-            parent="salt_production.lab_root1"
+            parent="salt_production.lab_refine"
             action="salt_production.burnerconsume_action_window"
             sequence="0"
             />
-
+            
     <menuitem id="menu_feed_refine_master"
             name="Refinary"
-            parent="salt_production.lab_root1"
+            parent="salt_production.lab_refine"
             action="salt_production.refine_action_window"
             sequence="0"
             />
+
+    <menuitem id="menu_feed_labs_master"
+            name="Lab Analysis"
+            parent="salt_production.lab_form"
+            action="salt_production.analysis_action"
+            sequence="0"
+            />
+
+
+    
+               
+
 
             
 

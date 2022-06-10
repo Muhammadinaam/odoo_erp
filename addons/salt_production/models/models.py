@@ -373,7 +373,7 @@ class Refine(models.Model):
     etime = fields.Datetime(string="End Time Harvesting" )
     hours = fields.Float(string="Hours worked" , compute="_compute_hours" , digits=(12,2))
     # days = fields.Char(string="Days" , compute="_compute_total5")
-    interuption=fields.Integer(string="Interrupted Hrs")
+    interuption=fields.Float(string="Interrupted Hrs")
     effectivehr=fields.Integer(string="effective Hrs", compute="_compute_effectivehr")
     perhrprod=fields.Float(string="Prod / Hr" , compute="_prodperhr")
     coarsePerc=fields.Float(string="Coarse Salt %", compute="_coarse")
@@ -431,7 +431,7 @@ class Refine(models.Model):
         for record in self:
             record.totalrefine = record.coarseAndFine + record.powdersalt
 
-    @api.depends("hours")
+    @api.depends("interuption")
     def _compute_effectivehr(self):
         for record in self:
             if(record.interuption > 0):
@@ -525,7 +525,80 @@ class Burnerconsume(models.Model):
      
   
 
+class Pump(models.Model):
+    _name = 'salt_production.pump'
+    _description = 'salt_production.pump'
 
+
+    time = fields.Datetime(string="Date of Entry" ,required=True)
+    water_pump_id = fields.Many2one("salt_production.water_pump", string="Water Pump",required=True)
+    
+    stime = fields.Datetime(string="Start Time Pump" )
+    etime = fields.Datetime(string="End Time Pump" )
+    hours = fields.Float(string="Hours worked" , compute="_compute_hours" , digits=(12,2))
+    statusOP = fields.Selection([
+        ('Operating','Operating'),('Non-Operating','Non-Operating')
+        ], string="Status")
+    remarks = fields.Char(string="Remarks")
+    volume = fields.Float(string="Volume (m^3)")
+    capacity = fields.Float(string="Capacity (m^3/h)", compute="_compute_capacity")
+
+
+
+    @api.depends("etime")
+    def _compute_hours(self):
+        for record in self:
+            if(record.etime):
+                start=fields.Datetime.to_datetime(record.stime)
+                end=fields.Datetime.to_datetime(record.etime)
+                record.hours = (end - start).total_seconds()/(60*60)
+            else:
+                record.hours=0
+
+    @api.depends("volume")
+    def _compute_capacity(self):
+        for record in self:
+            if(record.hours):
+                
+                record.capacity = record.volume/record.hours
+            else:
+                record.capacity=0
+
+
+class Analysis(models.Model):
+    _name = 'salt_production.analysis'
+    _description = 'salt_production.analysis'
+
+
+    time = fields.Datetime(string="Date of Entry" ,required=True)
+    crystalizer_id = fields.Many2one("salt_production.crystalizer", string="Crystalizer",required=True)
+
+    cat = fields.Selection([
+        ('Raw Salt','Raw Salt'),('Washed-1','Washed-1'),('Washed-2','Washed-2'),('Washed-3','Washed-3')
+        ,('Washed-4','Washed-4')
+        ], string="Category")
+    
+    analysis_line_ids = fields.One2many('analysis.lines', 'analysis_id', string="Analysis Uper Lines")
+
+
+class Analysislines(models.Model):
+    _name = 'analysis.lines'
+    _description = 'salt_production analysislines'
+
+    tests = fields.Char(string="Tests")
+    unit = fields.Char(string="Unit")
+    testmethod = fields.Char(string="Test Method")
+    scoretest= fields.Char(string="Score")
+    remarks = fields.Char(string="Remarks")
+
+    analysis_id = fields.Many2one('salt_production.analysis', string="analysis below line")
+
+
+
+  
+
+
+ 
 
     
 
