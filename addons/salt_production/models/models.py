@@ -378,7 +378,7 @@ class Refine(models.Model):
 
     crystalizer_id = fields.Many2one("salt_production.crystalizer", string="Crystalizer",required=True)
     customer= fields.Char(string="Customer")
-    saleorder= fields.Char(string="Sale Order")
+    saleorder= fields.Char(string="Purchase Order")
     cycle = fields.Selection([
         ('Cycle1/2022','Cycle1/2022'),('Cycle2/2022','Cycle2/2022'),('Cycle3/2022','Cycle3/2022'),
         ('Cycle1/2023','Cycle1/2023'),('Cycle2/2023','Cycle2/2023'),('Cycle3/2023','Cycle3/2023'),
@@ -394,9 +394,11 @@ class Refine(models.Model):
     coarseAndFine= fields.Float(string="Coarse + Fine" , compute="_coarsefine")
     powdersalt= fields.Float(string="Powder Salt")
     totalrefine= fields.Float(string="Coarse + Fine + Powder", compute="_totalrefinesalt")
-
-    stime = fields.Datetime(string="Start Time harvesting" )
-    etime = fields.Datetime(string="End Time Harvesting" )
+    lossrefine= fields.Float(string="Loss on Refine", compute="refineloss")
+    lossrefinePerc= fields.Float(string="Loss Refine %", compute="refinelossPerc")
+    
+    stime = fields.Datetime(string="Start Time" )
+    etime = fields.Datetime(string="End Time " )
     hours = fields.Float(string="Hours worked" , compute="_compute_hours" , digits=(12,2))
     # days = fields.Char(string="Days" , compute="_compute_total5")
     interuption=fields.Float(string="Interrupted Hrs")
@@ -408,6 +410,22 @@ class Refine(models.Model):
     totalPerc=fields.Float(string="Total %" , compute="_totalPerc")
 
     remarks=fields.Char(string="Remarks")
+
+    @api.depends("lossrefine")
+    def refinelossPerc(self):
+        for record in self:
+            if(record.rawincome):
+                record.lossrefinePerc = (   record.totalrefine/ record.rawincome *100 )
+            else:
+                record.lossrefinePerc = 0
+
+
+    @api.depends("totalrefine")
+    def refineloss(self):
+        for record in self:
+            record.lossrefine = record.rawincome - record.totalrefine
+
+    
 
     @api.depends("totalrefine")
     def _totalPerc(self):

@@ -86,6 +86,9 @@
                             <field name="coarseAndFine" />
                             <field name="powdersalt" />
                             <field name="totalrefine" />
+                            <field name="lossrefine" />
+                            <field name="lossrefinePerc" />
+
                             
                         </group>
                         <group>
