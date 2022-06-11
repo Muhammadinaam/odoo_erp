@@ -258,13 +258,16 @@ class Washing(models.Model):
     truckweight=fields.Float(string="Truck Estimated Wt")
     raw=fields.Float(string="Raw Incoming",compute="_compute_prod")
     belt1=fields.Float(string="Weigh Scale Belt Output")
+    whicheverisless = fields.Float(string="Less above",compute="compareless")
     waterload=fields.Integer(string="Water Load %")
-    rawsalt=fields.Float(string="Raw Salt",compute="_compute_raw")
+    waterloadloss=fields.Float(string="Water Load Loss", compute="waterloadlosscalc")
+    rawsalt=fields.Float(string="Raw Salt Gross",compute="_compute_raw")
     cat = fields.Selection([
         ('Single','Single'),('Double','Double'),('Tripple','Tripple')
-        ], string="Category",required=True)
+        ], string="Category of wash",required=True)
     
     washingloss=fields.Float(string="Washing Loss %")
+    washinglosscalc=fields.Float(string="Washing Loss", compute="washingslosscalc")
     washedsalt=fields.Float(string="Raw Salt Net",compute="_compute_washed")
     belt2=fields.Float(string="Weigh Scale Belt 2")
     washedsalt2=fields.Float(string="Salt after belt 2",compute="_compute_washed2")
@@ -278,8 +281,29 @@ class Washing(models.Model):
     effectivehr=fields.Integer(string="effective Hrs",compute="_compute_effectivehr")
     perhrprod=fields.Float(string="Prod / Hr" , compute="_prodperhr")
     remarks=fields.Char(string="Remarks")
-    
-    
+
+    @api.depends("belt1", "raw")
+    def compareless(self):
+        for record in self:
+            belt1 = record.belt1 or 0
+            raw = record.raw or 0
+            less_value = belt1 if belt1 < raw else raw
+            print(less_value)
+            record.whicheverisless = less_value
+
+    @api.depends("washingloss")
+    def washingslosscalc(self):
+        for record in self:
+            
+                record.washinglosscalc = record.rawsalt - record.washedsalt
+
+    @api.depends("rawsalt")
+    def waterloadlosscalc(self):
+        for record in self:
+            
+                record.waterloadloss = record.whicheverisless - record.rawsalt
+          
+
     @api.depends("effectivehr")
     def _prodperhr(self):
         for record in self:
@@ -287,6 +311,8 @@ class Washing(models.Model):
                 record.perhrprod = record.washedsalt / record.effectivehr
             else:
                 record.perhrprod = 0
+
+    
 
     @api.depends("interuption")
     def _compute_effectivehr(self):
@@ -318,7 +344,7 @@ class Washing(models.Model):
     @api.depends("waterload")
     def _compute_raw(self):
         for record in self:
-            record.rawsalt = record.belt1- (record.belt1 *  record.waterload /100)
+            record.rawsalt = record.whicheverisless- (record.whicheverisless *  record.waterload /100)
     
     @api.depends("washingloss")
     def _compute_washed(self):
@@ -571,6 +597,8 @@ class Analysis(models.Model):
 
 
     time = fields.Datetime(string="Date of Entry" ,required=True)
+    sampletime = fields.Date(string="Sample Taken at" )
+    testperf = fields.Date(string="Test Performed at" )
     crystalizer_id = fields.Many2one("salt_production.crystalizer", string="Crystalizer",required=True)
 
     cat = fields.Selection([

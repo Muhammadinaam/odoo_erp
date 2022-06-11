@@ -49,6 +49,9 @@
                             <field name="time" />
                             <field name="crystalizer_id"/>
                             <field name="cat"/>
+                            <field name="sampletime"/>
+                            <field name="testperf"/>
+
                             <!-- <field name="tests"/> -->
                         </group>
                         

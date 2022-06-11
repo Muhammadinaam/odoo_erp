@@ -57,11 +57,16 @@
                                 <field name="truckweight"/>
                                 <field name="raw"/>
                                 <field name="belt1"/>
+                                <field name="whicheverisless"/>
+
                                 <field name="waterload"/>
+                                <field name="waterloadloss"/>
                                 <field name="rawsalt"/>
                                 
                                 <field name="cat"/>
                                 <field name="washingloss"/>
+                                <field name="washinglosscalc"/>
+                               
                                 <field name="washedsalt"/>
                                 <field name="belt2"/>
                                 <field name="washedsalt2" />
