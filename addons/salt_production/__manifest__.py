@@ -45,6 +45,11 @@
         'views/views.xml',
         'views/reports.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'salt_production/static/src/css/my.css',
+        ],
+    },
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',
