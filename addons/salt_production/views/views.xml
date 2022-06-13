@@ -198,11 +198,11 @@
             />
 
     <menuitem id="menu_feed_labs_master"
-            name="Lab Analysis"
-            parent="salt_production.lab_form"
-            action="salt_production.analysis_action"
-            sequence="0"
-            />
+      name="Lab Analysis"
+      parent="salt_production.lab_form"
+      action="salt_production.analysis_action"
+      sequence="0"
+    />
 
 
     

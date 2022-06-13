@@ -43,6 +43,7 @@
         'views/circuittwo.xml',
         'views/feedevaporator.xml',
         'views/views.xml',
+        'views/reports.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
