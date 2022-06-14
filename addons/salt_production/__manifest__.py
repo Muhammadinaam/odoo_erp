@@ -40,6 +40,7 @@
         'views/projectedprod.xml',
         'views/widthsaltplates.xml',
         'views/pump.xml',
+        'views/testingmethod.xml',
         'views/circuittwo.xml',
         'views/feedevaporator.xml',
         'views/views.xml',

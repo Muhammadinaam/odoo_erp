@@ -11,6 +11,7 @@
         <field name="arch" type="xml">
 
             <tree>
+                <!-- <field name="analysis_id" /> -->
                 <field name="time" />
                 <field name="crystalizer_id"/>
                 <field name="cat"/>
@@ -60,7 +61,7 @@
                         <page name="Analysis_Detail" string="Analysis Tests Details">
                                 <field name="analysis_line_ids">
                                     <tree>
-                                        <field name="tests" />
+                                        <field name="testings_id" />
                                         <field name="unit" />
                                         <field name="testmethod" />
                                         <field name="scoretest"/>
@@ -68,7 +69,7 @@
                                     </tree>
                                     <form>
                                         <group>
-                                            <field name="tests" />
+                                            <field name="testings_id" />
                                             <field name="unit" />
                                             <field name="testmethod" />
                                             <field name="scoretest"/>

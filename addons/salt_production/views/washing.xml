@@ -66,7 +66,9 @@
                                 <field name="cat"/>
                                 <field name="washingloss"/>
                                 <field name="washinglosscalc"/>
-                               
+                                <field name="saltAfterWashingLoss"/>
+                                <field name="moistlossPerc"/>
+                                <field name="moistlosscalc"/>
                                 <field name="washedsalt"/>
                                 <field name="belt2"/>
                                 <field name="washedsalt2" />

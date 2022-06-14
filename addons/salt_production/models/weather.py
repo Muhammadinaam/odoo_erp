@@ -13,11 +13,11 @@ class WeatherPost(models.Model):
     # check_in_date = Datetime.strptime(string="checkin",  '%Y-%m-%d %H:%M:%S').date()
     # time = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
 
-    tempC = fields.Integer(string="Temprature C")
-    humidity = fields.Integer(string="Humidity %")
-    windspeed = fields.Integer(string="Windspeed km/h")
+    tempC = fields.Float(string="Temprature C")
+    humidity = fields.Float(string="Humidity %")
+    windspeed = fields.Float(string="Windspeed km/h")
     windDirection = fields.Char(string="Wind Direction")
-    rainfall = fields.Integer(string="Rain Fall (mm)")
-    beaufort = fields.Integer(string="Beaufort 1to12")
-    evaporation = fields.Integer(string="Evaporation")
+    rainfall = fields.Float(string="Rain Fall (mm)")
+    beaufort = fields.Float(string="Beaufort 1to12")
+    evaporation = fields.Float(string="Evaporation")
 

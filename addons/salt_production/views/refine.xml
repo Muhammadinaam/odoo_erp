@@ -86,8 +86,8 @@
                             <field name="coarseAndFine" />
                             <field name="powdersalt" />
                             <field name="totalrefine" />
-                            <field name="lossrefine" />
                             <field name="lossrefinePerc" />
+                            <field name="lossrefine" />
 
                             
                         </group>
@@ -102,6 +102,7 @@
                            <field name="remarks" />
                            <field name="coarsePerc" />
                            <field name="finePerc" />
+                           <field name="coarsefinePerc" />
                            <field name="powderPerc" />
                            <field name="totalPerc" />
 

@@ -111,6 +111,13 @@
               parent="salt_production.master_data"
               action="salt_production.crystalizers_action_window" />
 
+    <menuitem name="Analysis Test / Methods" 
+              id="salt_production.testings"
+              parent="salt_production.master_data"
+              action="salt_production.testings_action_window" />
+
+              
+
 
     
     <menuitem id="menu_weather_master"
@@ -152,7 +159,7 @@
                 sequence="0"
                 />
 
-
+                
                 
 
     <menuitem id="menu_widthsaltplate_master"
