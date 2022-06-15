@@ -24,7 +24,7 @@
                                 <field name="cat"/>
                                 <field name="washedsalt" sum="calculated2"/>
                                 <field name="washedsalt2" sum="calculated3"/>
-                                <field name="washedsalt3" sum="calculated4"/>
+                                <field name="net_salt_produced" sum="calculated4"/>
                                 <field name="effectivehr"/>
                                 <field name="perhrprod" />
                                 <field name="remarks"/>
@@ -82,7 +82,7 @@
                                 <field name="perhrprod" />
                                 <field name="remarks"/>
                                 <field name="belt3"/>
-                                <field name="washedsalt3"/>
+                                <field name="net_salt_produced"/>
                             </group>
 
                         </group>

@@ -24,7 +24,7 @@
                  <field name="coarse" />
                  <field name="finesalt" />
 
-                 <field name="coarseAndFine" />
+                 <field name="coarse_and_fine" />
                  <field name="powdersalt" />
                  <field name="totalrefine" />
                  
@@ -83,7 +83,7 @@
                             <field name="coarse" />
                             <field name="finesalt" />
 
-                            <field name="coarseAndFine" />
+                            <field name="coarse_and_fine" />
                             <field name="powdersalt" />
                             <field name="totalrefine" />
                             <field name="lossrefinePerc" />
