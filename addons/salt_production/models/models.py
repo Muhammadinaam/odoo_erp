@@ -449,7 +449,7 @@ class Refine(models.Model):
     coarse_and_fine = fields.Float(string="Coarse + Fine (Mtons)", required=True)
     powdersalt = fields.Float(string="Powder Salt (Mtons)", required=True)
     totalrefine = fields.Float(
-        string="Net Production Refinary (Mtons)", compute="_totalrefinesalt", required=True, store=True)
+        string="Net Production Refinary (Mtons)", compute="_totalrefinesalt", store=True)
     lossrefinePerc = fields.Float(
         string="Loss Refine %", compute="refinelossPerc")
     lossrefine = fields.Float(string="Refining Loss ",
