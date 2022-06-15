@@ -123,6 +123,7 @@
         <field name="name">Projected Production Refine</field>
         <field name="res_model">salt_production.refine</field>
         <field name="view_mode">tree,form,graph</field>
+        <field name="view_id" ref="view_refine_post_tree"/>
     </record>
 
 </odoo>
