@@ -26,8 +26,8 @@
     'data': [
         # 'report/refine_report.xml',
         # 'report/report.xml',
-        'security/ir.model.access.csv',
         'security/security.xml',
+        'security/ir.model.access.csv',
         'views/menu.xml',
         'views/productionconsume.xml',
         'views/burnerconsume.xml',
