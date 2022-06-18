@@ -15,7 +15,7 @@ class CircuitPost(models.Model):
     top = fields.Float(string="Water Top LVL")
     height= fields.Float(string="Height of water" , compute="_compute_total" , readonly="1")
     h_woodenbarrier = fields.Float(string="Height of Wooden Barrier")
-    brine_overflow = fields.Float(string="Brine OverFlow (CM)" ,compute="_compute_brine_height" , readonly="1")
+    brine_overflow = fields.Float(string="Brine OverFlow (cm)" ,compute="_compute_brine_height" , readonly="1")
     no_woodenbarrier = fields.Integer(string="No of Wooden Barrier")
     temp = fields.Float(string="Temperature (C)")
     density = fields.Float(string="density")

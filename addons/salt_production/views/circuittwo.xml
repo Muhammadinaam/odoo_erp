@@ -44,8 +44,8 @@
                         <group>
                             <group>
                                 <field name="crystalizer_id"/>
-                                <field name="btm"/>
                                 <field name="top"/>
+                                <field name="btm"/>
                                 <field name="height"/>
                                 
                             </group>
@@ -79,4 +79,3 @@
     </record>
 
 </odoo>
-

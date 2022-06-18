@@ -237,15 +237,14 @@ class ProjectedProd(models.Model):
         12, 3), related="crystalizer_id.area")
     projected = fields.Integer(string="Projected Production", required=True)
     calcprod = fields.Integer(
-        string="Calc Prod (area x avg)", compute="_compute_prod")
+        string="Calc Prod (area x avg x 1.1)", compute="_compute_prod")
     vari = fields.Float(string="Prjected - Calc", compute="_compute_var")
 
     _sql_constraints = [
         # ('name_uniq', 'unique (name)', "Name already exists!"),
         # ('code_uniq', 'unique (code)', "Code already exists!"),
     ]
-    # @api.depends("etime")
-
+    @api.depends("etime")
     def _compute_total5(self):
         for record in self:
             start = fields.Datetime.to_datetime(record.stime)
@@ -255,7 +254,7 @@ class ProjectedProd(models.Model):
     @api.depends("average")
     def _compute_prod(self):
         for record in self:
-            record.calcprod = record.average * record.area
+            record.calcprod = record.average * record.area * 1.1
 
     def _compute_var(self):
         for record in self:
@@ -319,8 +318,8 @@ class Washing(models.Model):
     hours = fields.Float(
         string="Hours", compute="_compute_hours", digits=(12, 2), required=True)
     # days = fields.Char(string="Days" , compute="_compute_total5")
-    interuption = fields.Integer(string="Interrupted Hrs")
-    effectivehr = fields.Integer(
+    interuption = fields.Float(string="Interrupted Hrs")
+    effectivehr = fields.Float(
         string="Effective Hrs", compute="_compute_effectivehr", store=True)
     perhrprod = fields.Float(
         string="Prod (Mtons) Per Hr", compute="_prodperhr")
@@ -461,7 +460,7 @@ class Refine(models.Model):
         string="Hours worked", compute="_compute_hours", digits=(12, 2), required=True)
     # days = fields.Char(string="Days" , compute="_compute_total5")
     interuption = fields.Float(string="Interrupted Hrs", required=True)
-    effectivehr = fields.Integer(
+    effectivehr = fields.Float(
         string="Effective Hrs", compute="_compute_effectivehr", store=True)
     perhrprod = fields.Float(
         string="Productivity (MT/HR)", compute="_prodperhr", required=True)
@@ -683,16 +682,15 @@ class Analysis(models.Model):
     time = fields.Datetime(string="Date of Entry", required=True)
     sampletime = fields.Date(string="Sample Taken at")
     testperf = fields.Date(string="Test Performed at")
-    crystalizer_id = fields.Many2one(
-        "salt_production.crystalizer", string="Crystalizer", required=True)
+    crystalizer_id = fields.Many2one("salt_production.crystalizer", string="Crystalizer", required=True)
 
     cat = fields.Selection([
-        ('Raw Salt', 'Raw Salt'), ('Washed-1', 'Washed-1'), ('Washed-2',
-                                                             'Washed-2'), ('Washed-3', 'Washed-3'), ('Washed-4', 'Washed-4')
-    ], string="Category")
+        ('Raw Salt', 'Raw Salt'), ('Washed-1', 'Washed-1'),
+         ('Washed-2','Washed-2'), ('Washed-3', 'Washed-3'), 
+         ('Washed-4', 'Washed-4')
+        ], string="Category")
 
-    analysis_line_ids = fields.One2many(
-        'analysis.lines', 'analysis_id', string="Analysis Uper Lines")
+    analysis_line_ids = fields.One2many('analysis.lines', 'analysis_id', string="Analysis Uper Lines")
 
 
 class Analysislines(models.Model):
@@ -700,8 +698,7 @@ class Analysislines(models.Model):
     _description = 'salt_production analysislines'
 
     # tests = fields.Char(string="Tests")
-    testings_id = fields.Many2one(
-        "salt_production.testings", string="Test Name", required=True)
+    testings_id = fields.Many2one("salt_production.testings", string="Test Name", required=True)
     unit = fields.Char(string="Unit")
     testmethod = fields.Char("Test Method", digits=(
         12, 3), related="testings_id.testmethod")

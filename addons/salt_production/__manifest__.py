@@ -25,9 +25,9 @@
     # always loaded
     'data': [
         # 'report/refine_report.xml',
-        'report/report.xml',
+        # 'report/report.xml',
         'security/ir.model.access.csv',
-        # 'security/security.xml',
+        'security/security.xml',
         'views/menu.xml',
         'views/productionconsume.xml',
         'views/burnerconsume.xml',

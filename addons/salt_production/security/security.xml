@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <odoo>
-    <record  id="module_category_projectedprod" model="ir.module.category">
-        <field name="name">Projected Production</field>
-        <field name="description">Category Projected Production</field>
+    <record  id="category_manager_salt" model="ir.module.category">
+        <field name="name">Manager Salt Production</field>
+        <field name="description">Salt Production</field>
+    </record>
+
+
+    <record  id="group_restrict_all_salt" model="res.groups">
+        <field name="name">Restricted default group</field>
+        <field name="category_id" ref="category_manager_salt"/>
          
     </record>
 
     <record  id="group_projectedprod_manager" model="res.groups">
         <field name="name">Manager ProjectedProd</field>
-        <field name="category_id" ref="module_category_projectedprod"/>
+        <field name="category_id" ref="category_manager_salt"/>
         
     </record>
 
-    <!-- <record  id="group_projectedprod_Accountant" model="res.group">
-        <field name="name">Accountant ProjectedProd</field>
-        <field name="category_id" ref="module_category_projectedprod" />
-
-    </record> -->
 
 
-    <record  id="group_projectedprod_assistant" model="res.group">
+    <!-- <record  id="group_projectedprod_assistant" model="res.group">
         <field name="name">AssitantProjectedProd</field>
         <field name="category_id" ref="module_category_projectedprod" />
         
-    </record>
+    </record> -->
 
 </odoo>
