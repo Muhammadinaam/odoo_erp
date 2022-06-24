@@ -12,23 +12,42 @@
             
                 <tree>
                     
-                                <field name="time"/>
-                                <!-- <field name="name"/> -->
-                                <field name="crystalizer_id"/>
-                                <field name="cycle"/>
-                                <!-- <field name="stime"/>
-                                <field name="etime"/>
-                                <field name="days"/> -->
-                                <field name="raw"/>
-                                <field name="rawsalt" sum="calculated1"/>
-                                <field name="cat"/>
-                                <field name="washedsalt" sum="calculated2"/>
-                                <field name="washedsalt2" sum="calculated3"/>
-                                <field name="net_salt_produced" sum="calculated4"/>
-                                <field name="effectivehr"/>
-                                <field name="perhrprod" />
-                                <field name="remarks"/>
+                    <field name="time"/>
+                    <field name="crystalizer_id"/>
+                    <field name="cycle"/>
+                   
+                    <!-- <field name="trips"/> -->
+                    <!-- <field name="truckweight"/> -->
+                    <!-- <field name="raw"/> -->
+                    <field name="belt1"/>
+                    <!-- <field name="whicheverisless"/> -->
 
+                    <field name="waterload"/>
+                    <field name="waterloadloss"/>
+                    <field name="rawsalt"/>
+                    
+                    <field name="cat"/>
+                    <field name="grosswt"/>
+                    <!-- <field name="washingloss"/>
+                    <field name="washinglosscalc"/> -->
+                    <field name="saltAfterWashingLoss"/>
+                    <!-- <field name="moistlossPerc"/>
+                    <field name="moistlosscalc"/> -->
+                    <field name="washedsalt"/>
+                    <field name="lossPerc"/>
+                    <!-- <field name="washedsalt2" /> -->
+<!--                
+                    <field name="stime"/>
+                    <field name="etime"/>
+                    <field name="hours"/>
+                    <field name="halftime"/>
+                    <field name="totaltime"/>
+                    <field name="interuption"/> -->
+                    <field name="effectivehr"/>
+                    <field name="perhrprod" />
+                    <field name="remarks"/>
+                    <!-- <field name="belt3"/> -->
+                    <field name="net_salt_produced"/>
                     
                 </tree>
         </field>
@@ -54,34 +73,37 @@
                                 <field name="cycle"/>
                                
                                 <field name="trips"/>
-                                <field name="truckweight"/>
-                                <field name="raw"/>
+                                <!-- <field name="truckweight"/> -->
+                                <!-- <field name="raw"/> -->
                                 <field name="belt1"/>
-                                <field name="whicheverisless"/>
+                                <!-- <field name="whicheverisless"/> -->
 
                                 <field name="waterload"/>
                                 <field name="waterloadloss"/>
                                 <field name="rawsalt"/>
                                 
                                 <field name="cat"/>
+                                <field name="grosswt"/>
                                 <field name="washingloss"/>
                                 <field name="washinglosscalc"/>
                                 <field name="saltAfterWashingLoss"/>
-                                <field name="moistlossPerc"/>
-                                <field name="moistlosscalc"/>
+                                <!-- <field name="moistlossPerc"/>
+                                <field name="moistlosscalc"/> -->
                                 <field name="washedsalt"/>
-                                <field name="belt2"/>
-                                <field name="washedsalt2" />
+                                <field name="lossPerc"/>
+                                <!-- <field name="washedsalt2" /> -->
                             </group>
                             <group>
                                 <field name="stime"/>
                                 <field name="etime"/>
                                 <field name="hours"/>
+                                <field name="halftime"/>
+                                <field name="totaltime"/>
                                 <field name="interuption"/>
                                 <field name="effectivehr"/>
                                 <field name="perhrprod" />
                                 <field name="remarks"/>
-                                <field name="belt3"/>
+                                <!-- <field name="belt3"/> -->
                                 <field name="net_salt_produced"/>
                             </group>
 

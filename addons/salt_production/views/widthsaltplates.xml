@@ -15,7 +15,7 @@
                        
                                 <field name="time"/>
                                 <field name="crystalizer_id"/>
-                                <field name="average" sum="sum of average"/>
+                                <field name="average" />
                                 <field name="timeperoid"/>
                       
                                 <field name="dif1"/>
@@ -129,4 +129,3 @@
     </record>
 
 </odoo>
-

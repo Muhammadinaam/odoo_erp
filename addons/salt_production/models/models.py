@@ -96,8 +96,8 @@ class WidthSaltPlate(models.Model):
         12, 2), compute="_compute_average")
     timeperoid = fields.Char('Month Year')
 
-    top1 = fields.Float('Top Point 1', digits=(12, 3))
-    btm1 = fields.Float('Btm Point 1', digits=(12, 3))
+    top1 = fields.Float('Top Point 1', digits=(12, 3) , required=True)
+    btm1 = fields.Float('Btm Point 1', digits=(12, 3) , required=True)
     dif1 = fields.Float('Diff Point 1', digits=(12, 3),
                         compute="_compute_total")
     space1 = fields.Char('sample 1', readonly=True)
@@ -206,7 +206,8 @@ class WidthSaltPlate(models.Model):
 
             elif(record.dif1 > 0):
                 record.average = (record.dif1)*100
-
+            else:
+                record.average=0
 
 class ProjectedProd(models.Model):
     _name = 'salt_production.projectedprod'
@@ -244,7 +245,7 @@ class ProjectedProd(models.Model):
         # ('name_uniq', 'unique (name)', "Name already exists!"),
         # ('code_uniq', 'unique (code)', "Code already exists!"),
     ]
-    @api.depends("etime")
+    # @api.depends("etime")
     def _compute_total5(self):
         for record in self:
             start = fields.Datetime.to_datetime(record.stime)
@@ -280,44 +281,43 @@ class Washing(models.Model):
                                          'Cycle2/2025'), ('Cycle3/2025', 'Cycle3/2025'),
     ], string="Cycle", required=True)
     trips = fields.Integer(string="No of Trips")
-    truckweight = fields.Float(string="Truck Estimated Wt")
-    raw = fields.Float(
-        string="Raw Salt Trucks Incoming (Mtons)", compute="_compute_prod")
-    belt1 = fields.Float(string="Weigh Scale Conveyor 1 Belt (Mtons)")
-    whicheverisless = fields.Float(
-        string="Which ever is Less From above", compute="compareless", store=True)
-    waterload = fields.Integer(string="Moisture %")
-    waterloadloss = fields.Float(
-        string="Moisture Loss (Mtons)", compute="waterloadlosscalc", store=True)
-    rawsalt = fields.Float(string="Raw Salt Gross (Mtons)",
-                           compute="_compute_raw", store=True)
+    # truckweight = fields.Float(string="Truck Estimated Wt")
+    # raw = fields.Float(string="Raw Salt Trucks Incoming (Mtons)", compute="_compute_prod")
+    belt1 = fields.Float(string="RS-GROSS-WT (MT)")
+    # whicheverisless = fields.Float(string="Which ever is Less From above", compute="compareless", store=True)
+    waterload = fields.Integer(string="Moist %")
+    waterloadloss = fields.Float(string="Moist (MT)", compute="waterloadlosscalc", store=True)
+    rawsalt = fields.Float(string="RS-NET-WT (MT)",compute="_compute_raw", store=True)
+
+
     cat = fields.Selection([
         ('Single', 'Single'), ('Double', 'Double'), ('Tripple', 'Tripple')
     ], string="Category of wash", required=True)
 
-    washingloss = fields.Float(string="Washing Loss %")
-    washinglosscalc = fields.Float(
-        string="Washing Loss (Mtons)", compute="washingslosscalc", store=True)
+    grosswt = fields.Float(string="WS-GROSS-WT (MT)")
+    washingloss = fields.Float(string="MOIST (%)")
+    washinglosscalc = fields.Float(string="MOIST (MT)", compute="washingslosscalc", store=True)
 
     saltAfterWashingLoss = fields.Float(
-        string="Washed Salt before moisture (Mtons)", compute="_compute_washedbeforemoist")
-    moistlossPerc = fields.Float(string="Moisture Loss %")
-    moistlosscalc = fields.Float(
-        string="Moist Loss (Mtons)", compute="_moistlosscalc", store=True)
+        string="WS-NET-WT (MT)", compute="_compute_washedbeforemoist")
+    # moistlossPerc = fields.Float(string="Moisture Loss %")
+    # moistlosscalc = fields.Float(
+    #     string="Moist Loss (Mtons)", compute="_moistlosscalc", store=True)
 
-    # washinglosscalc=fields.Float(string="Washing Loss (Mtons)", compute="washingslosscalc", store=True)
-    washedsalt = fields.Float(
-        string="Washed Salt Net (Mtons)", compute="_compute_washed")
+    washedsalt = fields.Float(string="LOSS (MT)", compute="_compute_washed")
 
-    belt2 = fields.Float(string="Weigh Scale Conveyor Belt2  (Mtons)")
-    washedsalt2 = fields.Float(
-        string="Salt after conveyor Belt2", compute="_compute_washed2")
-    belt3 = fields.Float(string="Weigh Scale Conveyor Belt3")
+    
+    lossPerc = fields.Float(
+        string="Loss (%)", compute="_compute_washed2")
+    # belt3 = fields.Float(string="Weigh Scale Conveyor Belt3")
     stime = fields.Datetime(string="Start Time harvesting")
     etime = fields.Datetime(string="End Time Harvesting")
     hours = fields.Float(
         string="Hours", compute="_compute_hours", digits=(12, 2), required=True)
     # days = fields.Char(string="Days" , compute="_compute_total5")
+    halftime = fields.Float(string="Half Time")
+    totaltime = fields.Float(
+        string="Total Hrs", compute="_compute_totalhrs", store=True)
     interuption = fields.Float(string="Interrupted Hrs")
     effectivehr = fields.Float(
         string="Effective Hrs", compute="_compute_effectivehr", store=True)
@@ -330,57 +330,88 @@ class Washing(models.Model):
         compute="_compute_net_salt_produced",
         store=True
     )
+    @api.depends("interuption")
+    def _compute_effectivehr(self):
+        for record in self:
+            record.effectivehr = record.totaltime - record.interuption
 
-    @api.depends("moistlosscalc")
+    @api.depends("halftime")
+    def _compute_totalhrs(self):
+        for record in self:
+            record.totaltime = record.hours - record.halftime
+
+    @api.depends("washedsalt")
+    def _compute_washed2(self):
+        for record in self:
+            if(record.washedsalt):
+                record.lossPerc = record.washedsalt / record.rawsalt * 100
+            else:
+                record.lossPerc = 0
+
+    @api.depends("saltAfterWashingLoss")
     def _compute_washed(self):
         for record in self:
-            record.washedsalt = record.saltAfterWashingLoss - record.moistlosscalc
+            record.washedsalt =  record.rawsalt - record.saltAfterWashingLoss 
 
-    @api.depends("moistlossPerc")
-    def _moistlosscalc(self):
-        for record in self:
-            record.moistlosscalc = (
-                record.saltAfterWashingLoss * record.moistlossPerc / 100)
-
-    @api.depends("rawsalt")
-    def waterloadlosscalc(self):
-        for record in self:
-
-            record.waterloadloss = record.whicheverisless - record.rawsalt
-
+    
     @api.depends("washingloss")
     def _compute_washedbeforemoist(self):
         for record in self:
-            record.saltAfterWashingLoss = record.rawsalt - \
-                (record.rawsalt * record.washingloss / 100)
-
-    @api.depends("belt1", "raw")
-    def compareless(self):
-        for record in self:
-            belt1 = record.belt1 or 0
-            raw = record.raw or 0
-            less_value = belt1 if belt1 < raw else raw
-            print(less_value)
-            record.whicheverisless = less_value
+            record.saltAfterWashingLoss = record.grosswt - record.washinglosscalc
 
     @api.depends("washingloss")
     def washingslosscalc(self):
         for record in self:
+            if(record.washingloss):
+                record.washinglosscalc = record.grosswt * record.washingloss/100
+            else:
+                record.washinglosscalc = 0
 
-            record.washinglosscalc = record.rawsalt - record.saltAfterWashingLoss
+    @api.depends("waterload")
+    def _compute_raw(self):
+        for record in self:
+            record.rawsalt = record.belt1 - record.waterloadloss
+
+    @api.depends("waterload")
+    def waterloadlosscalc(self):
+        for record in self:
+            if(record.waterload):
+                record.waterloadloss = record.belt1 * record.waterload/100
+            else:
+                record.waterloadloss = 0
+
+
+    
+
+    # @api.depends("moistlossPerc")
+    # def _moistlosscalc(self):
+    #     for record in self:
+    #         record.moistlosscalc = (
+    #             record.saltAfterWashingLoss * record.moistlossPerc / 100)
+
+   
+
+    
+
+    # @api.depends("belt1", "raw")
+    # def compareless(self):
+    #     for record in self:
+    #         belt1 = record.belt1 or 0
+    #         raw = record.raw or 0
+    #         less_value = belt1 if belt1 < raw else raw
+    #         print(less_value)
+    #         record.whicheverisless = less_value
+
 
     @api.depends("effectivehr")
     def _prodperhr(self):
         for record in self:
             if(record.effectivehr > 0):
-                record.perhrprod = record.washedsalt / record.effectivehr
+                record.perhrprod = record.saltAfterWashingLoss / record.effectivehr
             else:
                 record.perhrprod = 0
 
-    @api.depends("interuption")
-    def _compute_effectivehr(self):
-        for record in self:
-            record.effectivehr = record.hours - record.interuption
+    
 
     @api.depends("etime")
     def _compute_hours(self):
@@ -392,26 +423,19 @@ class Washing(models.Model):
             else:
                 record.hours = 0
 
-    @api.depends("truckweight")
-    def _compute_prod(self):
-        for record in self:
-            record.raw = record.trips * record.truckweight
+    # @api.depends("truckweight")
+    # def _compute_prod(self):
+    #     for record in self:
+    #         record.raw = record.trips * record.truckweight
 
-    @api.depends("waterload")
-    def _compute_raw(self):
-        for record in self:
-            record.rawsalt = record.whicheverisless - \
-                (record.whicheverisless * record.waterload / 100)
+    
 
-    @api.depends("belt3")
+    @api.depends("etime")
     def _compute_net_salt_produced(self):
         for record in self:
-            record.net_salt_produced = record.washedsalt2 - record.belt3
+            record.net_salt_produced = record.saltAfterWashingLoss
 
-    @api.depends("belt2")
-    def _compute_washed2(self):
-        for record in self:
-            record.washedsalt2 = record.washedsalt - record.belt2
+    
 
     _sql_constraints = [
         # ('name_uniq', 'unique (name)', "Name already exists!"),
@@ -439,16 +463,18 @@ class Refine(models.Model):
         ('Cycle1/2025', 'Cycle1/2025'), ('Cycle2/2025',
                                          'Cycle2/2025'), ('Cycle3/2025', 'Cycle3/2025'),
     ], string="Cycle", required=True)
-    catincome = fields.Selection([
-        ('Single', 'Single'), ('Double', 'Double'), ('Tripple', 'Tripple')
-    ], string="Salt Type", required=True)
-    rawincome = fields.Float(string="Gross Raw Salt Recieved (Mtons)")
-    coarse = fields.Float(string="Coarse Salt (Mtons)")
-    finesalt = fields.Float(string="Fine Salt (Mtons)")
-    coarse_and_fine = fields.Float(string="Coarse + Fine (Mtons)", required=True)
-    powdersalt = fields.Float(string="Powder Salt (Mtons)", required=True)
+    rawincome = fields.Float(string="RS-GROSS-WT (MT)")
+    moistPerc = fields.Float(string="Moist %" )
+    moist_mt = fields.Float(string="Moist (MT)" , compute="_moistPerc")
+    aftermoist = fields.Float(string="RS-NET-WT (MT)" , compute="_afterMoist")
+    catincome = fields.Selection([('Single', 'Single'), ('Double', 'Double'), ('Tripple', 'Tripple') ], string="Types of Process", required=True)
+
+    coarse = fields.Float(string="CS (MT)")
+    finesalt = fields.Float(string="FS (MT)")
+    coarse_and_fine = fields.Float(string="CFS (MT)", required=True)
+    powdersalt = fields.Float(string="PS (Mtons)", required=True)
     totalrefine = fields.Float(
-        string="Net Production Refinary (Mtons)", compute="_totalrefinesalt", store=True)
+        string="Total Prod (MT)", compute="_totalrefinesalt", store=True)
     lossrefinePerc = fields.Float(
         string="Loss Refine %", compute="refinelossPerc")
     lossrefine = fields.Float(string="Refining Loss ",
@@ -458,21 +484,43 @@ class Refine(models.Model):
     etime = fields.Datetime(string="End Time ", required=True)
     hours = fields.Float(
         string="Hours worked", compute="_compute_hours", digits=(12, 2), required=True)
-    # days = fields.Char(string="Days" , compute="_compute_total5")
+    halftime = fields.Float(string="Half Time", required=True)
+    total_hrs = fields.Float(string="Total Hrs", compute="totalhrs", store=True)
     interuption = fields.Float(string="Interrupted Hrs", required=True)
     effectivehr = fields.Float(
         string="Effective Hrs", compute="_compute_effectivehr", store=True)
     perhrprod = fields.Float(
         string="Productivity (MT/HR)", compute="_prodperhr", required=True)
-    coarsePerc = fields.Float(string="Coarse Salt %", compute="_coarse")
-    finePerc = fields.Float(string="Fine Salt %", compute="_fine")
+    coarsePerc = fields.Float(string="CS %", compute="_coarse")
+    finePerc = fields.Float(string="FS %", compute="_fine")
     coarsefinePerc = fields.Float(
-        string=" Coarse + Fine % ", compute="coarse_and_finePerc")
-    powderPerc = fields.Float(string="Powder Salt %", compute="_powder")
+        string=" CFS % ", compute="coarse_and_finePerc")
+    powderPerc = fields.Float(string="PS %", compute="_powder")
     totalPerc = fields.Float(
         string="Total %", compute="_totalPerc", required=True)
 
     remarks = fields.Char(string="Remarks")
+
+    @api.depends("halftime")
+    def totalhrs(self):
+        for record in self:
+            if(record.halftime > 0):
+                record.total_hrs = record.hours - record.halftime
+            else:
+                record.total_hrs= record.hours
+
+    @api.depends("moistPerc")
+    def _afterMoist(self):
+        for record in self:
+            record.aftermoist = record.rawincome - record.moist_mt
+    
+    @api.depends("moistPerc")
+    def _moistPerc(self):
+        for record in self:
+            if(record.moistPerc):
+                record.moist_mt = record.rawincome * record.moistPerc / 100
+            else:
+                record.moist_mt = 0
 
     @api.depends("totalrefine")
     def coarse_and_finePerc(self):
@@ -486,13 +534,12 @@ class Refine(models.Model):
     @api.depends("powdersalt")
     def _totalrefinesalt(self):
         for record in self:
-            record.totalrefine = record.coarse + record.finesalt + \
-                record.coarse_and_fine + record.powdersalt
+                record.totalrefine = record.coarse + record.finesalt + record.coarse_and_fine + record.powdersalt
 
     @api.depends("lossrefine")
     def refinelossPerc(self):
         for record in self:
-            if(record.rawincome):
+            if(record.totalrefine):
                 record.lossrefinePerc = (
                     record.lossrefine/record.totalrefine * 100)
             else:
@@ -501,7 +548,7 @@ class Refine(models.Model):
     @api.depends("totalrefine")
     def refineloss(self):
         for record in self:
-            record.lossrefine = record.rawincome - record.totalrefine
+            record.lossrefine = record.aftermoist - record.totalrefine
 
     @api.depends("totalrefine")
     def _totalPerc(self):
@@ -546,9 +593,9 @@ class Refine(models.Model):
     def _compute_effectivehr(self):
         for record in self:
             if(record.interuption > 0):
-                record.effectivehr = record.hours - record.interuption
+                record.effectivehr = record.total_hrs - record.interuption
             else:
-                record.effectivehr = record.hours
+                record.effectivehr = record.total_hrs
 
     # @api.depends("finesalt")
     # def _coarsefine(self):

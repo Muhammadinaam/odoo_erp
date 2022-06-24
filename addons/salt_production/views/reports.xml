@@ -8,7 +8,6 @@
 			<tree create="false" string="Washing Report Summary">
                 <field name="period" />
 				<field name="crystalizer_id" />
-				<field name="raw_salt_input" />
 				<field name="total_production" />
 				<field name="effective_working_hours" />
 				<field name="productivity_per_hour" />
@@ -27,7 +26,7 @@
 			<tree create="false" string="Washing Report">
                 <field name="time" string="Date/Time" />
 				<field name="crystalizer_id" />
-				<field name="whicheverisless" string="Input" sum="Total Input" />
+				<!-- <field name="whicheverisless" string="Input" sum="Total Input" /> -->
 				<field name="net_salt_produced" string="Total production" sum="Total production" />
 				<field name="effectivehr" string="Effective hours" sum="Effective hours" />
 				<field name="perhrprod" string="Productivity per hour" sum="Productivity per hour" />

@@ -42,7 +42,7 @@ class WashingReportPeriodsSummary(models.Model):
         'Crystalizer'
     )
     effective_working_hours = fields.Float(string='Effective working hours')
-    raw_salt_input = fields.Float(string='Raw salt input')
+    
     total_production = fields.Float(string='Total production')
     productivity_per_hour = fields.Float(string='Productivity per hour')
     total_washing_losses = fields.Float(string='Total washing losses')
@@ -56,7 +56,7 @@ class WashingReportPeriodsSummary(models.Model):
         CAST('<PERIOD>' AS text) as "period",
         sum(effectivehr) as "effective_working_hours",
         salt_production_crystalizer.id as crystalizer_id,
-        sum(whicheverisless) as "raw_salt_input",
+        
         sum(net_salt_produced) as "total_production",
         sum(net_salt_produced)/sum(effectivehr) as "productivity_per_hour",
         sum(waterloadloss) + sum(washinglosscalc) as "total_washing_losses",

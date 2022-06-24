@@ -12,30 +12,41 @@
 
             <tree>
 
-              
+                <field name="time" />
+                <field name="crystalizer_id" />
+                <field name="customer" />
+                <field name="saleorder" />
+                <field name="cycle" />
+                <field name="rawincome" />
+                <!-- <field name="moistPerc" /> -->
+                <!-- <field name="moist_mt" /> -->
+                <field name="aftermoist" />
                 
-                 <field name="time" />
-                 <field name="crystalizer_id" />
-                 <field name="customer" />
-                 <field name="saleorder" />
-                 <field name="cycle" />
-                 <field name="catincome" />
-                 <field name="rawincome" />
-                 <field name="coarse" />
-                 <field name="finesalt" />
+                <field name="catincome" />
+                <field name="coarse_and_fine" />
+                <field name="coarse" />
+                <field name="finesalt" />
 
-                 <field name="coarse_and_fine" />
-                 <field name="powdersalt" />
-                 <field name="totalrefine" />
-                 
-          
-                 
-                
-                <field name="effectivehr" sum="calculated" />
-                <field name="perhrprod" sum="Projected" />
-                <field name="remarks" />
-                
+                <field name="powdersalt" />
+                <field name="totalrefine" />
+                <!-- <field name="lossrefinePerc" />
+                <field name="lossrefine" /> -->
 
+                
+           
+                <!-- <field name="stime" />
+                <field name="etime" />
+                <field name="hours" />
+                <field name="interuption" />
+                -->
+               <field name="effectivehr" sum="calculated" />
+               <field name="perhrprod" sum="Projected" />
+               <!-- <field name="remarks" />
+               <field name="coarsePerc" />
+               <field name="finePerc" />
+               <field name="coarsefinePerc" />
+               <field name="powderPerc" />
+               <field name="totalPerc" /> -->
             </tree>
         </field>
     </record>
@@ -78,12 +89,16 @@
                             <field name="customer" />
                             <field name="saleorder" />
                             <field name="cycle" />
-                            <field name="catincome" />
                             <field name="rawincome" />
+                            <field name="moistPerc" />
+                            <field name="moist_mt" />
+                            <field name="aftermoist" />
+
+                            <field name="catincome" />
+                            <field name="coarse_and_fine" />
                             <field name="coarse" />
                             <field name="finesalt" />
 
-                            <field name="coarse_and_fine" />
                             <field name="powdersalt" />
                             <field name="totalrefine" />
                             <field name="lossrefinePerc" />
@@ -95,14 +110,16 @@
                             <field name="stime" />
                             <field name="etime" />
                             <field name="hours" />
+                            <field name="halftime" />
+                            <field name="total_hrs" />
                             <field name="interuption" />
                            
                            <field name="effectivehr" sum="calculated" />
                            <field name="perhrprod" sum="Projected" />
                            <field name="remarks" />
+                           <field name="coarsefinePerc" />
                            <field name="coarsePerc" />
                            <field name="finePerc" />
-                           <field name="coarsefinePerc" />
                            <field name="powderPerc" />
                            <field name="totalPerc" />
 
