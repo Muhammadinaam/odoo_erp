@@ -447,12 +447,12 @@ class Refine(models.Model):
     _name = 'salt_production.refine'
     _description = 'salt_production.refine'
 
-    time = fields.Datetime(string="Time", required=True)
+    time = fields.Datetime(string="TIME", required=True)
 
     crystalizer_id = fields.Many2one(
-        "salt_production.crystalizer", string="Crystallizer Ref", required=True)
-    customer = fields.Char(string="Customer Name")
-    saleorder = fields.Char(string="Purchase Order")
+        "salt_production.crystalizer", string="CRYSTALLISER REF", required=True)
+    customer = fields.Char(string="CUSTOMER NAME")
+    saleorder = fields.Char(string="PURCHASE ORDER")
     cycle = fields.Selection([
         ('Cycle1/2022', 'Cycle1/2022'), ('Cycle2/2022',
                                          'Cycle2/2022'), ('Cycle3/2022', 'Cycle3/2022'),
@@ -462,44 +462,47 @@ class Refine(models.Model):
                                          'Cycle2/2024'), ('Cycle3/2024', 'Cycle3/2024'),
         ('Cycle1/2025', 'Cycle1/2025'), ('Cycle2/2025',
                                          'Cycle2/2025'), ('Cycle3/2025', 'Cycle3/2025'),
-    ], string="Cycle", required=True)
-    rawincome = fields.Float(string="RS-GROSS-WT (MT)")
-    moistPerc = fields.Float(string="Moist %" )
-    moist_mt = fields.Float(string="Moist (MT)" , compute="_moistPerc")
-    aftermoist = fields.Float(string="RS-NET-WT (MT)" , compute="_afterMoist")
+    ], string="CYCLE", required=True)
+    cat = fields.Selection([
+        ('Raw Salt', 'Raw Salt'), ('Washed Salt', 'Washed Salt'),
+    ], string="RAW MATERIAL TYPE", required=True)
+    rawincome = fields.Float(string="RAW MATERIAL GROSS-WT (MT)")
+    moistPerc = fields.Float(string="MOIST %" )
+    moist_mt = fields.Float(string="MOIST (MT)" , compute="_moistPerc")
+    aftermoist = fields.Float(string="RAW MATERIAL NET-WT (MT)" , compute="_afterMoist")
     catincome = fields.Selection([('Single', 'Single'), ('Double', 'Double'), ('Tripple', 'Tripple') ], string="Types of Process", required=True)
 
     coarse = fields.Float(string="CS (MT)")
     finesalt = fields.Float(string="FS (MT)")
     coarse_and_fine = fields.Float(string="CFS (MT)", required=True)
-    powdersalt = fields.Float(string="PS (Mtons)", required=True)
+    powdersalt = fields.Float(string="PS (MT)", required=True)
     totalrefine = fields.Float(
-        string="Total Prod (MT)", compute="_totalrefinesalt", store=True)
+        string="TOTAL PRODUCTION (MT)", compute="_totalrefinesalt", store=True)
     lossrefinePerc = fields.Float(
-        string="Loss Refine %", compute="refinelossPerc")
+        string="LOSS REFINE %", compute="refinelossPerc")
     lossrefine = fields.Float(string="Refining Loss ",
                               compute="refineloss", store=True)
 
-    stime = fields.Datetime(string="Start Time", required=True)
-    etime = fields.Datetime(string="End Time ", required=True)
+    stime = fields.Datetime(string="START TIME", required=True)
+    etime = fields.Datetime(string="END TIME ", required=True)
     hours = fields.Float(
-        string="Hours worked", compute="_compute_hours", digits=(12, 2), required=True)
-    halftime = fields.Float(string="Half Time", required=True)
-    total_hrs = fields.Float(string="Total Hrs", compute="totalhrs", store=True)
-    interuption = fields.Float(string="Interrupted Hrs", required=True)
+        string="HOURS WORKED", compute="_compute_hours", digits=(12, 2), required=True)
+    halftime = fields.Float(string="HALF TIME", required=True)
+    total_hrs = fields.Float(string="TOTAL HOURS", compute="totalhrs", store=True)
+    interuption = fields.Float(string="INTERRUPTED HRS", required=True)
     effectivehr = fields.Float(
-        string="Effective Hrs", compute="_compute_effectivehr", store=True)
+        string="EFFECTIVE HOURS", compute="_compute_effectivehr", store=True)
     perhrprod = fields.Float(
-        string="Productivity (MT/HR)", compute="_prodperhr", required=True)
+        string="PRODUCTIVITY (MT/HR)", compute="_prodperhr", required=True)
     coarsePerc = fields.Float(string="CS %", compute="_coarse")
     finePerc = fields.Float(string="FS %", compute="_fine")
     coarsefinePerc = fields.Float(
         string=" CFS % ", compute="coarse_and_finePerc")
     powderPerc = fields.Float(string="PS %", compute="_powder")
     totalPerc = fields.Float(
-        string="Total %", compute="_totalPerc", required=True)
+        string="TOTAL %", compute="_totalPerc", required=True)
 
-    remarks = fields.Char(string="Remarks")
+    remarks = fields.Char(string="REMARKS")
 
     @api.depends("halftime")
     def totalhrs(self):

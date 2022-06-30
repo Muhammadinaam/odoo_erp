@@ -19,13 +19,26 @@
         <field name="name">Sama Salt Production Process</field>
         <field name="description">Create Charts for Production Process</field>
     </record>
+
+    <record  id="category_lab_saltreports" model="ir.module.category">
+        <field name="name">Sama Salt Reports</field>
+        <field name="description">See Reports</field>
+    </record>
    
     <!-- TYPES OF GROUPS -->
     <!-- TYPES OF GROUPS -->
     <!-- TYPES OF GROUPS --> 
 
 
+     <!-- TYPES REPORTS --> 
+     <!-- TYPES REPORTS --> 
 
+     <record  id="group_reports" model="res.groups">
+        <field name="name">Can Watch Reports</field>
+        <field name="category_id" ref="category_lab_saltreports"/>
+    </record>
+    <!-- TYPES REPORTS --> 
+    <!-- TYPES REPORTS -->  
 
     <!-- TYPES OF LAB --> 
     <!-- TYPES OF LAB --> 

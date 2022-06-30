@@ -67,6 +67,8 @@
       <field name="view_mode">tree,form</field>
     </record>
 
+  
+
 
 
     <menuitem name="Salt Production" 
