@@ -24,12 +24,20 @@
         <field name="name">Sama Salt Reports</field>
         <field name="description">See Reports</field>
     </record>
+
+    <record  id="accounting_post_journal" model="ir.module.category">
+        <field name="name">Accounts Other</field>
+        <field name="description">Can Post Journal</field>
+    </record>
    
     <!-- TYPES OF GROUPS -->
     <!-- TYPES OF GROUPS -->
     <!-- TYPES OF GROUPS --> 
 
-
+    <record  id="group_post_journal" model="res.groups">
+        <field name="name">Can Post Journal</field>
+        <field name="category_id" ref="accounting_post_journal"/>
+    </record>
      <!-- TYPES REPORTS --> 
      <!-- TYPES REPORTS --> 
 
