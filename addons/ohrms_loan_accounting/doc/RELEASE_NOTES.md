@@ -4,3 +4,8 @@
 #### Version 15.0.1.0.0
 ##### ADD
 - Initial commit for Open HRMS Project
+
+#### 15.06.2022
+#### Version 15.0.1.0.2
+##### FIX
+- Bug Fix
