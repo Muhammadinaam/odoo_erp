@@ -10,6 +10,8 @@ services:
       - odoo-web-data:/var/lib/odoo
       - ./addons:/mnt/extra-addons
       - ./config:/etc/odoo
+    environment:
+      - ODOO_HTTP_SOCKET_TIMEOUT=10
   db:
     image: postgres:13
     environment:
