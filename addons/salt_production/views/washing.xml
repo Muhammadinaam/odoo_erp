@@ -6,7 +6,7 @@
    <!-- TREE VIEW -->
 
      <record id="view_washing_post_tree" model="ir.ui.view">
-        <field name="name">projectedprod.post.tree</field>
+        <field name="name">Washing Report</field>
         <field name="model">salt_production.washing</field>
         <field name="arch" type="xml">
             
@@ -33,6 +33,10 @@
                     <field name="saltAfterWashingLoss"/>
                     <!-- <field name="moistlossPerc"/>
                     <field name="moistlosscalc"/> -->
+                    <field name="sulphate" />
+                    <field name="chloride" />
+                    <field name="magnesuim" />
+                    <field name="calcium" />
                     <field name="washedsalt"/>
                     <field name="lossPerc"/>
                     <!-- <field name="washedsalt2" /> -->
@@ -90,6 +94,10 @@
                                 <field name="saltAfterWashingLoss"/>
                                 <!-- <field name="moistlossPerc"/>
                                 <field name="moistlosscalc"/> -->
+                                <field name="sulphate" />
+                                <field name="chloride" />
+                                <field name="magnesuim" />
+                                <field name="calcium" />
                                 <field name="washedsalt"/>
                                 <field name="lossPerc"/>
                                 <!-- <field name="washedsalt2" /> -->
@@ -117,10 +125,11 @@
 
 
   
- <record  id="salt_production.washing_action_window" model="ir.actions.act_window">
+    <record  id="salt_production.washing_action_window" model="ir.actions.act_window">
       <field name="name">Production of Salt Through Wash Plants</field>
       <field name="res_model">salt_production.washing</field>
       <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="view_washing_post_tree"/>
     </record>
 
 </odoo>

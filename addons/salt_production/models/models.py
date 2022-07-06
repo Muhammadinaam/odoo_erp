@@ -300,9 +300,11 @@ class Washing(models.Model):
 
     saltAfterWashingLoss = fields.Float(
         string="WS-NET-WT (MT)", compute="_compute_washedbeforemoist")
-    # moistlossPerc = fields.Float(string="Moisture Loss %")
-    # moistlosscalc = fields.Float(
-    #     string="Moist Loss (Mtons)", compute="_moistlosscalc", store=True)
+    sulphate = fields.Float(string="Sulphate Content (SO4) %")
+    chloride = fields.Float(string="Chloride as (NaCl) %")
+    magnesuim = fields.Float(string="Magnesium %")
+    calcium = fields.Float(string="Calcium %")
+    
 
     washedsalt = fields.Float(string="LOSS (MT)", compute="_compute_washed")
 
@@ -310,12 +312,12 @@ class Washing(models.Model):
     lossPerc = fields.Float(
         string="Loss (%)", compute="_compute_washed2")
     # belt3 = fields.Float(string="Weigh Scale Conveyor Belt3")
-    stime = fields.Datetime(string="Start Time harvesting")
-    etime = fields.Datetime(string="End Time Harvesting")
+    stime = fields.Datetime(string="Start Time harvesting", required=True)
+    etime = fields.Datetime(string="End Time Harvesting", required=True)
     hours = fields.Float(
-        string="Hours", compute="_compute_hours", digits=(12, 2), required=True)
+        string="Hours", compute="_compute_hours", digits=(12, 2))
     # days = fields.Char(string="Days" , compute="_compute_total5")
-    halftime = fields.Float(string="Half Time")
+    halftime = fields.Float(string="Half Time", required=True)
     totaltime = fields.Float(
         string="Total Hrs", compute="_compute_totalhrs", store=True)
     interuption = fields.Float(string="Interrupted Hrs")
@@ -323,7 +325,7 @@ class Washing(models.Model):
         string="Effective Hrs", compute="_compute_effectivehr", store=True)
     perhrprod = fields.Float(
         string="Prod (Mtons) Per Hr", compute="_prodperhr")
-    remarks = fields.Char(string="Remarks")
+    remarks = fields.Char(string="Remarks", required=True)
 
     net_salt_produced = fields.Float(
         string="Net Salt Produced",
