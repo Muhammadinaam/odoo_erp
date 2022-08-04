@@ -11,7 +11,7 @@ services:
       - ./addons:/mnt/extra-addons
       - ./config:/etc/odoo
     environment:
-      - ODOO_HTTP_SOCKET_TIMEOUT=10
+      - ODOO_HTTP_SOCKET_TIMEOUT=30
   db:
     image: postgres:13
     environment:
